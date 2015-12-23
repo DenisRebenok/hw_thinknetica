@@ -12,16 +12,16 @@ end
 
 
 print "Число: "
-date = gets.chomp.to_i
+date = gets.to_i
 print "Месяц: "
-month = gets.chomp.to_i
+month = gets.to_i
 print "Год: "
-year = gets.chomp.to_i
+year = gets.to_i
 
 monthes_days = [31, days_in_february, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
-previous_days = 0
 if month > 0
+  total = 0
   monthes_days[0..month-2].each { |d| total += d }
   total += date
   puts "#{total} день в году."

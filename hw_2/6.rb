@@ -1,21 +1,22 @@
 order = {}
-total = 0
 
 while true
   puts "Введите название купленного товара или слово 'stop' для окончания ввода данных:"
   answer = gets.chomp
   break if answer == "stop"
   puts "Введите стоимость единицы товара:"
-  cost = gets.chomp.to_f
+  cost = gets.to_f
   puts "Количество товара:"
-  numbers = gets.chomp.to_f
+  numbers = gets.to_f
   order[answer] = { price: cost, count: numbers }
 end
 
 puts "Куплены такие продукты:"
+total = 0
 order.each do |product, values|
-  puts "#{product}: #{values[:count]} шт. по цене #{values[:price]} за единицу;"
-  total += values[:count]*values[:price]
+  product_total = values[:count] * values[:price]
+  puts "#{product}: #{values[:count]} шт/кг/л. Стоимость: #{product_total};"
+  total += product_total
 end
-puts "Всего потрачено: #{total}"
+puts "Общая стоимость заказа: #{total}"
 
