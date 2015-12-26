@@ -1,5 +1,5 @@
 def is_leap_year?(year = 2015)
-  (year%4==0 and year%100 != 0) or (year%400 == 0)
+  (year%4==0 && year%100 != 0) || (year%400 == 0)
 end
 
 days_in_february = if is_leap_year?

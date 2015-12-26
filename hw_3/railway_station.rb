@@ -31,9 +31,10 @@ attr_reader :name, :trains
     if trains.empty?
       puts "No trains on a station."
     else
-      spec_trains = trains.select { |train| train if train.type == train_type }
+      # spec_trains = trains.select { |train| train if train.type == train_type }
       unless spec_trains.empty?
-        spec_trains.each { |train| puts train }
+        # spec_trains.each { |train| puts train }
+        trains.each { |train| puts train if train.type == train_type }
       else
         puts "No trains that match condition of type."
       end
