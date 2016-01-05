@@ -1,14 +1,20 @@
-require_relative 'wagon'
-require_relative 'cargo_wagon'
-require_relative 'passenger_wagon'
-
 class Train
-  attr_reader :speed, :route
+  include Manufacturer
+  
+  @@trains = {}
 
-  def initialize(wagons_amount)
+  def self.find(number)
+    @@trains[number]
+  end
+  
+  attr_reader :number, :speed, :route
+
+  def initialize(number, wagons_amount)
+    @number = number
     @wagons = []
     @speed = 0
-    attach_wagons!(wagons_amount)
+    add_wagons!(wagons_amount)
+    @@trains[number] = self
   end
 
   def speed_up
@@ -48,7 +54,7 @@ class Train
         puts "Nothing to detach. No wagons."
       end
     else
-      puts "Can\t detach - train is moving. Stop train & try again."
+      puts "Can't detach - train is moving. Stop train & try again."
     end
   end
 
@@ -93,34 +99,43 @@ class Train
     end               
   end
 
+  def to_s
+    "#{self.class} № #{number} с #{wagons_amount} вагонами (#{wagons})"
+  end
+
   protected
 
-  attr_writer :speed
+  attr_writer :number, :speed
   attr_accessor :wagons, :station_index
 
+  def type
+  end
+
   def appropriate_wagon?(wagon)
-    wagon.instance_of?(Wagon)
+    # wagon.instance_of?(Wagon) # и переопределить в потомках
+    type && type==wagon.type
   end
 
   def attach_wagon!(wagon)
     if stopped?
       self.wagons << wagon
     else
-      puts "Can\t attach wagon - train is moving. Stop train & try again."
+      puts "Can't attach wagon - train is moving. Stop train & try again."
     end
   end
 
-  def creare_wagon
-    if self.instance_of?(CargoTrain)
-      wagons << CargoWagon.new
-    elsif self.instance_of?(PassengerTrain)
-      wagons << PassengerWagon.new
-    else
-      wagons << Wagon.new
-    end
+  def add_wagons!(wagons_amount)
+    wagons_amount.times { self.wagons << Wagon::create(type) }
   end
 
-  def attach_wagons!(wagons_amount)
-    wagons_amount.times { creare_wagon }
-  end
+  # def creare_wagon
+  #   if self.instance_of?(CargoTrain)
+  #     wagons << CargoWagon.new
+  #   elsif self.instance_of?(PassengerTrain)
+  #     wagons << PassengerWagon.new
+  #   else
+  #     wagons << Wagon.new
+  #   end
+  # end
+
 end

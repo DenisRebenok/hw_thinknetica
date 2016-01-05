@@ -1,15 +1,14 @@
-require_relative 'train'
 require_relative 'cargo_wagon'
-
+require_relative 'train'
 
 class CargoTrain < Train
-  def attach_wagon(wagon)
-    attach_cargo_wagon(wagon)
+  protected
+
+  def appropriate_wagon?(wagon)
+    wagon.instance_of?(CargoWagon)
   end
 
-  private
-
-  def attach_cargo_wagon(wagon)
-    attach_wagon! if wagon.instance_of?(CargoWagon)
-  end
+  # def creare_wagon
+  #   self.wagons << CargoWagon.new
+  # end
 end

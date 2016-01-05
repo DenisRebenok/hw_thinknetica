@@ -1,15 +1,21 @@
 class RailwayStation
-attr_reader :name, :trains
+  @@stations = []
+
+  def self.all
+  @@stations.each { |station| puts station }
+  end
+
+  attr_reader :name, :trains
 
   def initialize(name)
     @name = name
     @trains = []
+    @@stations << self
   end
   
   def arrive(train)
     trains << train
   end
-
 
   def departure(train)
     unless trains.empty?
