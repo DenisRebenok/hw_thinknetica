@@ -9,6 +9,35 @@ require_relative 'railway_station'
 
 
 class Application
+  def main
+    print_help
+    while true
+      print "Дальнейшие действия? "
+      answer = gets.chomp
+      case answer
+      when "1"
+        create_station
+      when "2"
+        create_train
+      when "3"
+        attach_wagon
+      when "4"
+        detach_wagon
+      when "5"
+        set_train_on_station
+      when "6"
+        stations_trains_list
+      when "q"
+        break
+      else
+        print_help
+      end
+    end
+  end
+
+  private
+  attr_accessor :trains, :stations
+
   def initialize
     @stations =[]
     @trains = []
@@ -99,35 +128,6 @@ class Application
       puts "No station named #{st_name}."
     end
   end
-
-  def main
-    print_help
-    while true
-      print "Дальнейшие действия? "
-      answer = gets.chomp
-      case answer
-      when "1"
-        create_station
-      when "2"
-        create_train
-      when "3"
-        attach_wagon
-      when "4"
-        detach_wagon
-      when "5"
-        set_train_on_station
-      when "6"
-        stations_trains_list
-      when "q"
-        break
-      else
-        print_help
-      end
-    end
-  end
-
-  private
-  attr_accessor :trains, :stations
 end
 
 app = Application.new
