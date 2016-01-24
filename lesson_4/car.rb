@@ -1,17 +1,35 @@
 class Car
   attr_reader :current_rpm
+  attr_accessor :number
 
-  def initialize
+  NUMBER_FORMAT = /^[а-яА-Я]{1}\d{3}[а-яА-Я]{2}$/
+
+  def initialize(number)
     @current_rpm = 0
+    @number = number
+    validate!
   end
 
   def start_engine
     start_engine! if engine_stopped?
   end
 
+  def valid?
+    validate!
+  rescue
+      false
+  end
+
   protected
 
   attr_writer :current_rpm
+
+  def validate!
+    raise "Number can't be nil" if number.nil?
+    raise "Number should be at least 6 symbols" if number.length < 6
+    raise "Number has invalid format" if number !~ NUMBER_FORMAT
+    true
+  end
 
   def initial_rpm
     700
