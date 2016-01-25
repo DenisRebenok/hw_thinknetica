@@ -28,6 +28,7 @@ class Route
   # end
 
   protected
+  attr_writer :stations
 
   def validate!(station)
     raise ArgumentError, "Station can't be nil" if station.nil?
