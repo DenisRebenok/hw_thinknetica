@@ -138,7 +138,7 @@ class Application
     if train.type == :passenger
       print 'Сколько занять мест в вагоне: '
       train.wagons[wagon_number-1].take_place(gets.to_i)
-    elsif type == :cargo
+    elsif train.type == :cargo
       print 'Сколько занять объема вагона: '
       train.wagons[wagon_number-1].take_volume(gets.to_i)
     end
