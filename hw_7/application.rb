@@ -24,21 +24,6 @@ class Application
     end
   end
 
-  def stations_full_report
-    tries ||= 2
-    RailwayStation.all.each do |station|
-      puts "RailwayStation #{station} include #{station.trains.size} trains:"
-      station.each_train! do |train|
-        puts " * #{train}:"
-        train.each_wagon! { |wagon| puts "  - #{wagon}" }
-      end
-      puts
-    end
-  rescue => e
-    puts e.message
-    retry unless (tries -= 1).zero?
-  end
-
   private
   attr_accessor :trains, :stations
   
@@ -54,23 +39,14 @@ class Application
     puts e.message
   end
 
-  def station_trains_list(station = nil)
-     tries ||= 2
-     station ||= station_by_name
-     station.each_train! { |train| puts train }
-  rescue => e
-    puts e.message
-    retry unless (tries -= 1).zero?
-  end
-
   def create_train
     print "Тип поезда [cargo / passenger]: "
     type = gets.chomp.to_sym
     print "Номер поезда: "
     number = gets.chomp 
     trains[number] = Train.create(type, number, 0)
-    print "Количество вагонов: "
-    attach_wagons(trains[number], gets.to_i)
+    
+    attach_wagons(trains[number])
   rescue => e
     puts e.message
   end
@@ -81,21 +57,25 @@ class Application
     puts e.message
   end
 
-  def attach_wagons(train = nil, wagons_count = 1)
+  def attach_wagons(train = nil)
     tries ||= 2
     train ||= train_by_number
     type = train.type
     print type == :passenger ? 'Количество мест в вагоне: ' : 'Общий объем вагона: '
     space = gets.to_i
+    print "Количество вагонов: "
+    wagons_count = gets.to_i
     wagons_count.times { train.attach_wagon( Wagon.create(type, space, train.wagons_amount+1) ) }
   rescue => e
     puts e.message
     retry unless (tries -= 1).zero?
   end
 
-  def detach_wagons(train = nil, wagons_count = 1)
+  def detach_wagons(train = nil)
     tries ||= 2
     train ||= train_by_number
+    print "Количество отцепляемых вагонов: "
+    wagons_count = gets.to_i
     wagons_count.times { train.detach_wagon }
   rescue => e
     puts e.message
@@ -123,6 +103,15 @@ class Application
     tries ||= 2
     train = train_by_number
     train.each_wagon! { |wagon| puts wagon }
+  rescue => e
+    puts e.message
+    retry unless (tries -= 1).zero?
+  end
+
+  def station_trains_list
+     tries ||= 2
+     station = station_by_name
+     station.each_train! { |train| puts train }
   rescue => e
     puts e.message
     retry unless (tries -= 1).zero?

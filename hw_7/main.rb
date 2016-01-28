@@ -10,6 +10,16 @@ require_relative 'passenger_train'
 require_relative 'railway_station'
 require_relative 'application'
 
+def stations_full_report
+  RailwayStation.all.each do |station|
+    puts "RailwayStation #{station} include #{station.trains.size} trains:"
+    station.each_train! do |train|
+      puts " * #{train}:"
+      train.each_wagon! { |wagon| puts "  - #{wagon}" }
+    end
+    puts
+  end
+end
 
 def create_test_instances
   station_1 = RailwayStation.new("Minskaya")
@@ -34,7 +44,7 @@ def create_test_instances
 end
 
 create_test_instances
+stations_full_report
 
 app = Application.new
-app.stations_full_report
 app.main
