@@ -14,15 +14,6 @@ class Train
     @@trains
   end
 
-  # def self.trains_wagons_info
-  #   @@trains.each do |train|
-  #     wagons = train.wagons
-  #     wagons.each_wagon_with_index! do |wagon, index|
-  #       puts "#{wagon.type.to_s.capitalize} wagon № #{index + 1} has: #{wagon}" 
-  #     end
-  #   end
-  # end
-
   def self.create(type, number, wagons_amount = 0)
     if type == :cargo
       CargoTrain.new(number, wagons_amount)
@@ -37,7 +28,6 @@ class Train
   def initialize(number, wagons_amount = 0)
     @number = number
 
-    # add_wagons!(wagons_amount) if wagons_amount > 0
     @wagons = Array.new(wagons_amount) { |n| Wagon.create(type, 10, n+1) }
     
     validate!
@@ -123,10 +113,6 @@ class Train
     end               
   end
 
-  # def each_wagon_with_index!(block)
-  #   wagons.each_with_index { |wagon, index| block.call(wagon, index) }
-  # end
-
   def each_wagon!
     wagons.each { |wagon| yield(wagon) }
   end
@@ -191,8 +177,4 @@ class Train
   def attach_wagon!(wagon)
     self.wagons << wagon if stopped?
   end
-
-  # def add_wagons!(wagons_amount)
-  #   wagons_amount.times { self.wagons << Wagon.create(type) }
-  # end
 end
