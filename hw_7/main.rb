@@ -22,25 +22,28 @@ def stations_full_report
 end
 
 def create_test_instances
-  station_1 = RailwayStation.new("Minskaya")
-  station_2 = RailwayStation.new("Stoli4naya")
-  station_3 = RailwayStation.new("Zona 51")
+  petrovka = RailwayStation.new("Petrovka")
+  minskaya = RailwayStation.new("Minskaya")
+  zona_51 = RailwayStation.new("Zona 51")
 
-  train_1 = PassengerTrain.new('777-77', 7)
+  train_777 = PassengerTrain.new('777-77', 7)
   train_2 = PassengerTrain.new('666-66', 13)
-  train_3 = PassengerTrain.new('111-11', 10)
-  train_4 = CargoTrain.new('111-12', 11)
+  train_4_vip = PassengerTrain.new('111-11', 2)
+  cargo_12 = CargoTrain.new('111-12', 11)
   train_5 = PassengerTrain.new('111-13', 12)
-  train_6 = CargoTrain.new('111-14', 20)
-  train_7 = PassengerTrain.new('111-15', 13)
+  cargo_14 = CargoTrain.new('111-14', 20)
+  train_15 = PassengerTrain.new('111-15', 13)
 
-  station_1.arrive(train_1)
-  station_1.arrive(train_3)
-  station_1.arrive(train_5)
-  station_2.arrive(train_2)
-  station_2.arrive(train_7)
-  station_3.arrive(train_4)
-  station_3.arrive(train_6)
+  cargo_14.wagons[13].take_volume(10)
+  train_15.wagons[0].take_place(5)
+
+  petrovka.arrive(train_777)
+  petrovka.arrive(train_4_vip)
+  petrovka.arrive(train_5)
+  minskaya.arrive(train_2)
+  minskaya.arrive(train_15)
+  zona_51.arrive(cargo_12)
+  zona_51.arrive(cargo_14)
 end
 
 create_test_instances
