@@ -9,7 +9,7 @@ class Train
   class << self; attr_accessor :trains end
 
   def self.find(number)
-    @trains[number] if @trains
+    @trains[number]
   end
 
   def self.create(type, number, wagons_amount = 0, wagons_space = 10)
