@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
-  resources :trains
   resources :railway_stations
+  resources :trains
+  resources :routes
   get 'welcome/index'
-
   root 'welcome#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
